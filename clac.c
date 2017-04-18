@@ -84,11 +84,15 @@ static void eval(const char *input) {
 			a = pop();
 			b = pop();
 			push(b / a);
+		} else if (!strcmp(argv[i], "//")) {
+			a = pop();
+			b = pop();
+			push(floor(b / a));
 		} else if (!strcmp(argv[i], "%")) {
 			a = pop();
 			b = pop();
 			push(b - a * floor(b / a));
-		} else if (!strcmp(argv[i], "^")) {
+		} else if ( (!strcmp(argv[i], "**")) || (!strcmp(argv[i], "^")) ) {
 			a = pop();
 			b = pop();
 			push(pow(b, a));
@@ -112,6 +116,27 @@ static void eval(const char *input) {
 			a = pop();
 			push(a);
 			push(a);
+		} else if (!strcmp(argv[i], "!")) {
+			a = pop();
+			if (a >= 1) {
+				b = 1;
+				for (int i = 1; i <= a; ++i) {
+					b *= i;
+				}
+				push(b);
+			} else {
+				push(a);
+			}
+		} else if (!strcasecmp(argv[i], "pi")) {
+			push(M_PI);
+		} else if (!strcasecmp(argv[i], "e")) {
+			push(M_E);
+		} else if (!strcasecmp(argv[i], "root") || !strcasecmp(argv[i], "sqrt")) {
+			a = pop();
+			push(sqrt(a));
+		} else if ( !strcasecmp(argv[i], "abs") || !strcmp(argv[i], "|") ) {
+			a = pop();
+			push(fabs(a));
 		} else {
 			a = strtod(argv[i], &z);
 
